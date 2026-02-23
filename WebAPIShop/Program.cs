@@ -27,7 +27,11 @@ builder.Services.AddScoped<IOrdersService, OrdersService>();
 
 
 builder.Services.AddScoped<IPasswordService, PasswordService>();
+<<<<<<< HEAD
 builder.Services.AddDbContext<dbSHOPContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("projectAPI")));
+=======
+builder.Services.AddDbContext<dbSHOPContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("seminar")));
+>>>>>>> f72ec516f72ab203e5307e0d5d09ce3cdb3bce01
 builder.Host.UseNLog();
 
 builder.Services.AddScoped<IRatingRepository, RatingRepository>();

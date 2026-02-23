@@ -12,26 +12,18 @@ using Xunit;
 
 namespace TestProject1
 {
-    public class CategoryRepositoryIntegrationTest : IClassFixture<DatabaseFixture>, IDisposable
+    public class CategoryRepositoryIntegrationTest : IDisposable
     {
-
+        private readonly DatabaseFixture _fixture;
         private readonly dbSHOPContext _dbContext;
         private readonly CategoriesRepository _categoryRepository;
-        public CategoryRepositoryIntegrationTest(DatabaseFixture databaseFixture)
+        public CategoryRepositoryIntegrationTest()
         {
-            _dbContext = databaseFixture.Context;
+            _fixture = new DatabaseFixture();
+            _dbContext = _fixture.Context;
             _categoryRepository = new CategoriesRepository(_dbContext);
-            ClearDatabase();
         }
-        private void ClearDatabase()
-        {
-            _dbContext.OrderItems.RemoveRange(_dbContext.OrderItems);
-            _dbContext.Orders.RemoveRange(_dbContext.Orders);
-            _dbContext.Products.RemoveRange(_dbContext.Products);
-            _dbContext.Categories.RemoveRange(_dbContext.Categories);
-            _dbContext.Users.RemoveRange(_dbContext.Users);
-            _dbContext.SaveChanges();
-        }
+
 
         [Fact]
         public async Task GetCategories_ReturnsAllCategories_whenDataExsists()
@@ -71,7 +63,8 @@ namespace TestProject1
 
         public void Dispose()
         {
-            ClearDatabase();
+            _fixture.Dispose();
         }
+
     }
 }

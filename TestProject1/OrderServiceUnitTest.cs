@@ -73,11 +73,9 @@ public class OrderServiceUnitTest
         var today = DateOnly.FromDateTime(DateTime.Now);
         var orderItems = new List<OrderItemDTO> { new OrderItemDTO(3, 2) };
 
-        // מוצר עולה 100 (100 * 2 = 200)
         mockProductRepo.Setup(r => r.GetProductById(3))
                        .ReturnsAsync(new Product { ProductId = 3, Price = 100 });
 
-        // הלקוח שלח 200 (סכום תקין)
         var inputOrderDto = new OrderDTO(today, 0, 200.0, orderItems, 1);
 
         mockMapper.Setup(m => m.Map<OrderDTO, Order>(It.IsAny<OrderDTO>()))
@@ -97,7 +95,7 @@ public class OrderServiceUnitTest
         // Assert
         Assert.Equal(200, result.OrderSum);
 
-        // בדיקה שהלוגר מעולם לא הופעל (כי הסכום היה תקין)
+        // בדיקה שהלוגר מעולם לא הופעל 
         mockLogger.Verify(l => l.Log(
             LogLevel.Warning,
             It.IsAny<EventId>(),
