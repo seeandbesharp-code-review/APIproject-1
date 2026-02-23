@@ -10,7 +10,7 @@ using Moq.EntityFrameworkCore;
 
 namespace TestProject1;
 
-public class UserRepositoryTest
+public class UserRepositoryUnitTest
 {
 
     private List<User> GetTestUsers()

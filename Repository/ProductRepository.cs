@@ -14,6 +14,11 @@ namespace Repository
             _dbSHOPContext = dbSHOPContext;
         }
 
+        public async Task<Product> GetProductById(int id)
+        {
+            return await _dbSHOPContext.Products.FindAsync(id);
+        }
+
         public async Task<(List<Product> Items, int TotalCount)> GetProducts(string? description, int? minPrice, int? maxPrice, int[]? categoryIds,
             int? limit, string? orderby, int? position)
         {

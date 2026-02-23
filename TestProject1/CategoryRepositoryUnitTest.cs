@@ -6,7 +6,7 @@ using Repository;
 
 namespace TestProject1
 {
-    public class CategoryRepositoryTest
+    public class CategoryRepositoryUnitTest
     {
         [Fact]
         

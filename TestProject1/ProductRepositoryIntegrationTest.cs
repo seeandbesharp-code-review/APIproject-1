@@ -64,6 +64,43 @@ namespace TestProject1
             Assert.NotNull(result);
             Assert.Empty(result.Items);
         }
+        [Fact]
+        public async Task GetProductById_ReturnsProduct_WhenIdExists()
+        {
+            // Arrange
+            var category = new Category { CategoryName = "General" };
+            await _dbContext.Categories.AddAsync(category);
+            await _dbContext.SaveChangesAsync();
+
+            var product = new Product
+            {
+                ProductName = "Test Product",
+                Price = 100,
+                Description = "Test",
+                CategoryId = category.CategoryId
+            };
+            await _dbContext.Products.AddAsync(product);
+            await _dbContext.SaveChangesAsync();
+
+            // Act
+            var result = await _productRepository.GetProductById(product.ProductId);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(product.ProductId, result.ProductId);
+            Assert.Equal("Test Product", result.ProductName);
+            Assert.Equal(100, result.Price);
+        }
+
+        [Fact]
+        public async Task GetProductById_ReturnsNull_WhenIdDoesNotExist()
+        {
+            // Act
+            var result = await _productRepository.GetProductById(999); // ID שלא קיים
+
+            // Assert
+            Assert.Null(result);
+        }
 
         public void Dispose()
         {

@@ -12,7 +12,7 @@ using Repository;
 
 namespace TestProject1
 {
-    public class OrderRepositoryTest
+    public class OrderRepositoryUnitTest
     {
         [Fact]
         public async Task GetOrderById_OrderExists_ReturnsOrderWithItems()

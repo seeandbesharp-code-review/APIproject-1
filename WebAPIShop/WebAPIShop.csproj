@@ -34,4 +34,9 @@
     </EditorConfigFiles>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\NewFolder\" />
+    <Folder Include="NewFolder\" />
+  </ItemGroup>
+
 </Project>

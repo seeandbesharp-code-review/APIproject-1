@@ -25,7 +25,7 @@ namespace WebAPIShop.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<ProductDTO>>> Get(string? description, int? minPrice, int? maxPrice, int[]? categoriesId,
+        public async Task<ActionResult<List<ProductDTO>>> Get(string? description, int? minPrice, int? maxPrice, [FromQuery] int[]? categoriesId,
             int? limit, string? orderby, int offset=1) 
         {
 

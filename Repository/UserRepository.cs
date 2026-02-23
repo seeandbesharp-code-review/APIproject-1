@@ -45,6 +45,10 @@ namespace Repository
 
         }
 
+        public async Task<User> GetUserByEmail(string email)
+        {
+            return await _dbSHOPContext.Users.FirstOrDefaultAsync(x=>x.UserEmail==email);
+        }
 
         public void DeleteUser(int id)
         {
