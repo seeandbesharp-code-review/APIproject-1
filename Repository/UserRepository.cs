@@ -47,11 +47,9 @@ namespace Repository
 
         public async Task<User> GetUserByEmail(string email)
         {
-            return await _dbSHOPContext.Users.FirstOrDefaultAsync(x=>x.UserEmail==email);
+            return await _dbSHOPContext.Users.AsNoTracking().FirstOrDefaultAsync(x=>x.UserEmail==email);
         }
 
-        public void DeleteUser(int id)
-        {
-        }
+
     }
 }

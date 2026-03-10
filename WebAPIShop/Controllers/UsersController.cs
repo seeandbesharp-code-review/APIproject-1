@@ -42,7 +42,9 @@ namespace WebAPIShop.Controllers
             ResultValidUser<UserDTO> createdUser = await _userService.AddUser(user, password);
             if(createdUser.data!=null)
                 return CreatedAtAction(nameof(Get), new{id = createdUser.data.UserId}, createdUser.data);
-            if(createdUser.InvalidPassword)
+            if(createdUser.InvalidEmail)
+                return BadRequest("Email is not valid");
+            if (createdUser.InvalidPassword)
                 return BadRequest("Password is not strong enough");
             return BadRequest("This email is using already");
         }
@@ -58,7 +60,6 @@ namespace WebAPIShop.Controllers
                 return Ok(user);
             }
             return NoContent();
-            //return Unauthorized();
         }
        
         [HttpPut("{id}")]
@@ -70,15 +71,12 @@ namespace WebAPIShop.Controllers
             {
                 return Ok();
             }
-            if(isUpdateSuccessfulResult.InvalidPassword)
+            if (isUpdateSuccessfulResult.InvalidEmail)
+                return BadRequest("Email is not valid");
+            if (isUpdateSuccessfulResult.InvalidPassword)
                 return BadRequest("Password is not strong enough");
             return BadRequest("This email is using already");
         }
 
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            _userService.DeleteUser(id);
-        }
     }
 }
