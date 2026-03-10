@@ -1,7 +1,7 @@
 ﻿namespace Servers;
 
-using Entitys;
-using Repository;
+using Entities;
+using Repositories;
 using DTOs;
 using AutoMapper;
 using System.ComponentModel.DataAnnotations;

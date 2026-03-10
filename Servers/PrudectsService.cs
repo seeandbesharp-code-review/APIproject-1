@@ -2,8 +2,8 @@
 
 using AutoMapper;
 using DTOs;
-using Entitys;
-using Repository;
+using Entities;
+using Repositories;
 
 
 public class PrudectsService : IPrudectsService

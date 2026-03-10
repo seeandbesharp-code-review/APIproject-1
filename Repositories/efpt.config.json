@@ -11,7 +11,7 @@
    "OutputPath": "Models",
    "PluralRules": null,
    "PreserveCasingWithRegex": true,
-   "ProjectRootNamespace": "Repository",
+   "ProjectRootNamespace": "Repositories",
    "Schemas": null,
    "SelectedHandlebarsLanguage": 2,
    "SelectedToBeGenerated": 0,

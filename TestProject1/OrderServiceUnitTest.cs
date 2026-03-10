@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using DTOs;
-using Entitys;
+using Entities;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Repository;
+using Repositories;
 using Servers;
 using Services;
 using System.Collections.Generic;

@@ -1,7 +1,7 @@
 ﻿using Castle.Core.Configuration;
-using Entitys;
+using Entities;
 using Microsoft.EntityFrameworkCore;
-using Repository;
+using Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

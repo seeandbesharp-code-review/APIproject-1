@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Entitys;
+using Entities;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
-using Repository;
+using Repositories;
 using MailKit.Search;
 using Moq.EntityFrameworkCore;
 

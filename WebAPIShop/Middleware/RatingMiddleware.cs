@@ -1,5 +1,5 @@
 ﻿using Services;
-using Entitys;
+using Entities;
 using PresidentsApp.Middlewares;
 
 namespace WebAPIShop.Middleware

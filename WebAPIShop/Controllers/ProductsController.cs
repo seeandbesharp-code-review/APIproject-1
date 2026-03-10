@@ -1,7 +1,7 @@
 ﻿using DTOs;
-using Entitys;
+using Entities;
 using Microsoft.AspNetCore.Mvc;
-using Repository;
+using Repositories;
 using Servers;
 using System.Text.Json;
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Repository;
+using Repositories;
 using Servers;
-using Entitys;
+using Entities;
 using NLog.Web;
 using Services;
 using WebAPIShop;

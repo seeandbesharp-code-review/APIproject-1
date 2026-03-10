@@ -1,8 +1,8 @@
-﻿using Entitys;
+﻿using Entities;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Moq.EntityFrameworkCore;
-using Repository;
+using Repositories;
 
 namespace TestProject1
 {

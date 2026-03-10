@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
-using Entitys;
+using Entities;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
-namespace Repository
+namespace Repositories
 {
     public class OrderRepository : IOrderRepository
     {

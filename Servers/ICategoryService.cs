@@ -1,5 +1,5 @@
-﻿using Entitys;
-using Repository;
+﻿using Entities;
+using Repositories;
 using DTOs;
 
 namespace Servers

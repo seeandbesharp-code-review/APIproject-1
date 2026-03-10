@@ -18,7 +18,7 @@ The project is structured using a **Layered Architecture** to achieve total **Se
 
 ⚙️ **Service Layer** – Contains all **Business Logic**, facilitating communication between layers.
 
-🗄️ **Repository Layer** – Manages **Data Access** logic and database communication.
+🗄️ **Repositories Layer** – Manages **Data Access** logic and database communication.
 
 ### Key Technical Features:
 💉 **Dependency Injection (DI):** Implemented across all layers to create **Decoupling** and improve system flexibility.
@@ -29,7 +29,7 @@ The project is structured using a **Layered Architecture** to achieve total **Se
 
 📦 **DTOs & Records:** Uses **C# Records** for **Data Transfer Objects** to remove circular dependencies and decouple the Data layer from the API layers.
 
-🔄 **AutoMapper:** Used for automatic and clean mapping between Database Entities and DTOs.
+🔄 **AutoMapper:** Used for automatic and clean mapping between Database  and DTOs.
 
 ⚙️ **Configuration:** Settings are managed via appsettings.json to keep the code clean and environment-flexible.
 
@@ -43,7 +43,7 @@ The project is structured using a **Layered Architecture** to achieve total **Se
 ├── WebAPIShop/           # Entry point, controllers, middleware
 ├── Services/             # Business logic implementations
 ├── Repositories/         # Data access implementations
-├── Entities/             # Domain models (Database Entities)
+├── /             # Domain models (Database )
 ├── DTOs/                 # Record-based data transfer objects
 ├── Tests/                # xUnit test projects (Unit & Integration)
 └── appsettings.json      # External configuration

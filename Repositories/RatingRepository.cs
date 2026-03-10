@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Entitys;
+using Entities;
 
-namespace Repository
+namespace Repositories
 {
     public class RatingRepository: IRatingRepository
     {

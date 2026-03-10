@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 namespace Servers;
-using Entitys;
-using Repository;
+using Entities;
+using Repositories;
 using DTOs;
 
 

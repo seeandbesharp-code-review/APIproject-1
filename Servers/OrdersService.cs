@@ -3,9 +3,9 @@
 using System;
 using AutoMapper;
 using DTOs;
-using Entitys;
+using Entities;
 using Microsoft.Extensions.Logging;
-using Repository;
+using Repositories;
 
 
 public class OrdersService : IOrdersService

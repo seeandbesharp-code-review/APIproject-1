@@ -1,6 +1,6 @@
 ﻿using DTOs;
-using Entitys;
-using Repository;
+using Entities;
+using Repositories;
 
 namespace Servers
 {

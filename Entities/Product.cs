@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Entitys;
+namespace Entities;
 
 public partial class Product
 {

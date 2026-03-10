@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Entitys;
+namespace Entities;
 
 public partial class dbSHOPContext : DbContext
 {

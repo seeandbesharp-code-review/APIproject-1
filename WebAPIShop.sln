@@ -5,11 +5,11 @@ VisualStudioVersion = 17.14.36301.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPIShop", "WebAPIShop\WebAPIShop.csproj", "{A18B6C22-61BE-4FA0-B735-78FE2FA85E3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{0DDAEA83-A72A-463C-9290-9216FA113133}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories", "Repositories\Repositories.csproj", "{0DDAEA83-A72A-463C-9290-9216FA113133}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Servers\Services.csproj", "{1EE58291-0B8C-4E2F-97CA-62C17CCB39BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entitys", "Entitys\Entitys.csproj", "{9E0B9674-EA20-4344-9185-9A77424CC2CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{9E0B9674-EA20-4344-9185-9A77424CC2CD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTOs", "DTOs\DTOs.csproj", "{8EADEA1F-4078-422E-B773-6A381BE4F273}"
 EndProject

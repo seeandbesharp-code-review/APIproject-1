@@ -1,4 +1,4 @@
-﻿using Entitys;
+﻿using Entities;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

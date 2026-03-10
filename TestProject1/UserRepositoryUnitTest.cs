@@ -2,8 +2,8 @@
 using Xunit;
 using Moq;
 using Microsoft.EntityFrameworkCore;
-using Repository;
-using Entitys;
+using Repositories;
+using Entities;
 using System.Collections.Generic;
 using System.Linq;
 using Moq.EntityFrameworkCore;

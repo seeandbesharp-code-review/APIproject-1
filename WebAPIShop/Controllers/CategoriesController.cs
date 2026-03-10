@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using Servers;
-using Entitys;
-using Repository;
+using Entities;
+using Repositories;
 using DTOs;
 
 
