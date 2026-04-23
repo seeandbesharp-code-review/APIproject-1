@@ -37,9 +37,9 @@ namespace WebAPIShop.Controllers
         }
   
         [HttpPost]
-        public async Task<ActionResult<UserDTO>> Post([FromBody] UserDTO user,string password)
+        public async Task<ActionResult<UserDTO>> Post([FromBody] UserWithPasswordDTO user)
         {
-            ResultValidUser<UserDTO> createdUser = await _userService.AddUser(user, password);
+            ResultValidUser<UserDTO> createdUser = await _userService.AddUser(user);
             if(createdUser.data!=null)
                 return CreatedAtAction(nameof(Get), new{id = createdUser.data.UserId}, createdUser.data);
             if(createdUser.InvalidEmail)
@@ -63,9 +63,9 @@ namespace WebAPIShop.Controllers
         }
        
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] UserDTO user, string password)
+        public async Task<IActionResult> Put(int id, [FromBody] UserWithPasswordDTO user)
         {
-            ResultValidUser<bool> isUpdateSuccessfulResult = await _userService.UpdateUser(id, user, password);
+            ResultValidUser<bool> isUpdateSuccessfulResult = await _userService.UpdateUser(id, user);
             bool isUpdateSuccessful = isUpdateSuccessfulResult.data;
             if (isUpdateSuccessful)
             {

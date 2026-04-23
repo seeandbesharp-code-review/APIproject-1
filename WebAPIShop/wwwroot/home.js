@@ -94,8 +94,8 @@ const loginUserPassword = document.querySelector("#passwordR")
 const login = async () => {
     try {
         const loginUser = {
-            LoginUserEmail: loginUserEmail.value,
-            LoginUserPassword: loginUserPassword.value
+            UserEmail: loginUserEmail.value,
+            UserPassword: loginUserPassword.value
         }
         const response = await fetch('https://localhost:44324/api/Users/login', {
             method: 'POST',

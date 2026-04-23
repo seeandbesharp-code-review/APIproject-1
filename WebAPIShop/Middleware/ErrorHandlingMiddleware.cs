@@ -26,8 +26,8 @@ namespace PresidentsApp.Middlewares
                 httpContext.Response.StatusCode = 500;
                 await httpContext.Response.WriteAsync("Internal Error In Server");
             }
-
         }
+
     }
 
     // Extension method used to add the middleware to the HTTP request pipeline.
