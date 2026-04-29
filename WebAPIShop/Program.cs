@@ -9,6 +9,8 @@ using WebAPIShop.Middleware;
 using Microsoft.AspNetCore.Builder;
 using PresidentsApp.Middlewares;
 using WebAPIShop.Extensions;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -28,7 +30,7 @@ builder.Services.AddScoped<IOrdersService, OrdersService>();
 
 
 builder.Services.AddScoped<IPasswordService, PasswordService>();
-builder.Services.AddDbContext<dbSHOPContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("projectAPI")));
+builder.Services.AddDbContext<dbSHOPContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("check")));
 
 builder.Host.UseNLog();
 
@@ -41,6 +43,16 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers();
 builder.Services.AddCustomRateLimiter();
 builder.Services.AddOpenApi();
+
+
+
+
+// Register Redis IDistributedCache
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetSection("Redis")["ConnectionString"];
+});
+
 
 var app = builder.Build();
 
@@ -69,3 +81,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
