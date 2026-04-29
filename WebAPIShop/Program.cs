@@ -8,6 +8,7 @@ using WebAPIShop;
 using WebAPIShop.Middleware;
 using Microsoft.AspNetCore.Builder;
 using PresidentsApp.Middlewares;
+using WebAPIShop.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -38,6 +39,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddCustomRateLimiter();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
@@ -54,6 +56,7 @@ if (app.Environment.IsDevelopment())
 // Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
+app.UseRateLimiter();
 
 app.UseErrorHandlingMiddleware();
 
