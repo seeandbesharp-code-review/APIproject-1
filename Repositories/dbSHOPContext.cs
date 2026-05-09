@@ -116,6 +116,8 @@ public partial class dbSHOPContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("userPassword");
+            entity.Property(e => e.IsAdmin)
+                .HasColumnName("IsAdmin");
         });
 
         modelBuilder.Entity<Rating>(entity =>

@@ -1,36 +1,36 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
 using Repositories;
 using Servers;
-using Entities;
 using NLog.Web;
 using Services;
 using WebAPIShop;
 using WebAPIShop.Middleware;
-using Microsoft.AspNetCore.Builder;
-using PresidentsApp.Middlewares;
 using WebAPIShop.Extensions;
-using Microsoft.Extensions.Caching.StackExchangeRedis;
-
+using PresidentsApp.Middlewares;
+using Entities;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// --- Repositories & Services ---
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
-
 
 builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 
-
-builder.Services.AddScoped<IProductRepository,ProductRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IPrudectsService, PrudectsService>();
-
 
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrdersService, OrdersService>();
 
-
 builder.Services.AddScoped<IPasswordService, PasswordService>();
-builder.Services.AddDbContext<dbSHOPContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("check")));
+builder.Services.AddDbContext<dbSHOPContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("check")));
 
 builder.Host.UseNLog();
 
@@ -38,47 +38,93 @@ builder.Services.AddScoped<IRatingRepository, RatingRepository>();
 builder.Services.AddScoped<IRatingService, RatingService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-// Add services to the container.
 
-builder.Services.AddControllers();
-builder.Services.AddCustomRateLimiter();
-builder.Services.AddOpenApi();
+// --- JWT Authentication ---
+var jwtKey = builder.Configuration["Jwt:Key"]!;
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+        };
+    });
 
-
-
-
-// Register Redis IDistributedCache
-builder.Services.AddStackExchangeRedisCache(options =>
+builder.Services.AddAuthorization(options =>
 {
-    options.Configuration = builder.Configuration.GetSection("Redis")["ConnectionString"];
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
 });
 
+// --- Controllers & Rate Limiting ---
+builder.Services.AddControllers();
+builder.Services.AddCustomRateLimiter();
 
+// --- Swagger with JWT "Authorize" button ---
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPIShop", Version = "v1" });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter your JWT token (without 'Bearer ' prefix)"
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
+builder.Services.AddOpenApi();
+builder.Services.AddDistributedMemoryCache();
+// --- Redis Cache ---
+//builder.Services.AddStackExchangeRedisCache(options =>
+//{
+//    options.Configuration = builder.Configuration.GetSection("Redis")["ConnectionString"];
+//});
+
+// ===================== PIPELINE =====================
 var app = builder.Build();
-
 
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint("/openapi/v1.json", "My API V1");
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPIShop V1");
     });
 }
-// Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
 app.UseRateLimiter();
 
 app.UseErrorHandlingMiddleware();
-
 app.UseRatingMiddleware();
 
-app.UseStaticFiles();
+// CRITICAL: Extract JWT from cookie BEFORE authentication runs
+app.UseJwtCookieMiddleware();
 
+app.UseAuthentication();  // Must come before UseAuthorization
 app.UseAuthorization();
+
+app.UseStaticFiles();
 
 app.MapControllers();
 
 app.Run();
-

@@ -1,13 +1,9 @@
-﻿
-using System.ComponentModel.DataAnnotations;
-
 namespace DTOs
 {
-    public record UserDTO(int UserId,
-
+    public record UserDTO(
+        int UserId,
         string UserEmail,
-        
         string UserFirstName,
-
-        string UserLastName);
+        string UserLastName,
+        bool IsAdmin);
 }

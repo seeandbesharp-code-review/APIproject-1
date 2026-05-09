@@ -1,7 +1,5 @@
-﻿using Entities;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Servers;
 using DTOs;
 
@@ -18,6 +16,7 @@ namespace WebAPIShop.Controllers
             _passwordService = passwordService;
         }
 
+        [AllowAnonymous] // used during registration flow before user has an account
         [HttpPost]
         public ActionResult<Password> Post([FromBody] Password password)
         {

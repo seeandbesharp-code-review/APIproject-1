@@ -15,5 +15,7 @@ namespace DTOs
 
         string UserLastName,
 
-        string UserPassword);
+        string UserPassword,
+        bool IsAdmin
+        );
 }
