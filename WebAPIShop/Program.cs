@@ -91,12 +91,12 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddOpenApi();
-builder.Services.AddDistributedMemoryCache();
+//builder.Services.AddDistributedMemoryCache();
 // --- Redis Cache ---
-//builder.Services.AddStackExchangeRedisCache(options =>
-//{
-//    options.Configuration = builder.Configuration.GetSection("Redis")["ConnectionString"];
-//});
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetSection("Redis")["ConnectionString"];
+});
 
 // ===================== PIPELINE =====================
 var app = builder.Build();

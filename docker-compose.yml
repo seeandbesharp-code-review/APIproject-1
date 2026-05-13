@@ -1,11 +1,38 @@
 version: '3.8'
 
 services:
+
   my_redis_cache:
     image: redis:latest
     container_name: my_redis_cache
     ports:
       - "6379:6379"
-    environment:
-      - REDIS_PASSWORD=redisAPIproject123
     command: ["redis-server", "--requirepass", "redisAPIproject123"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "redisAPIproject123", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  webapishop:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: webapishop_api
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      # Override Redis connection to use the container name instead of localhost
+      - Redis__ConnectionString=my_redis_cache:6379,password=redisAPIproject123
+      # Override JWT key via environment variable (never hardcode in production)
+      - Jwt__Key=${JWT_KEY}
+      - Jwt__Issuer=WebAPIShop
+      - Jwt__Audience=ShopAngularClient
+      # Override DB connection string via environment variable
+      - ConnectionStrings__check=${DB_CONNECTION_STRING}
+    depends_on:
+      my_redis_cache:
+        condition: service_healthy
+    restart: unless-stopped

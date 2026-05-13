@@ -1,0 +1,29 @@
+# Build artifacts
+**/bin/
+**/obj/
+
+# IDE and OS files
+.vs/
+.vscode/
+*.user
+.DS_Store
+
+# Git
+.git/
+.gitignore
+.github/
+
+# Runtime log files only — NOT appsettings*.json
+logger-*.json
+**/internal-nlog*.txt
+
+# Docker files themselves
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# Test project — not needed in the published output
+# (still copied for dotnet restore, but excluded from final image automatically by multi-stage build)
+
+# Readme
+README.md
