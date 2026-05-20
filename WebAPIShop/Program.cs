@@ -28,6 +28,9 @@ builder.Services.AddScoped<IPrudectsService, PrudectsService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrdersService, OrdersService>();
 
+// --- Kafka ---
+builder.Services.AddSingleton<IKafkaProducerService, KafkaProducerService>();
+
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddDbContext<dbSHOPContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("check")));

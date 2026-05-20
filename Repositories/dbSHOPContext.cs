@@ -113,7 +113,7 @@ public partial class dbSHOPContext : DbContext
                 .HasColumnName("userLastName");
             entity.Property(e => e.UserPassword)
                 .IsRequired()
-                .HasMaxLength(50)
+                .HasMaxLength(60)
                 .IsUnicode(false)
                 .HasColumnName("userPassword");
             entity.Property(e => e.IsAdmin)

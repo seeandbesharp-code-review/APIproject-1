@@ -98,6 +98,7 @@ public async Task<ResultValidUser<UserDTO>> AddUser(UserWithPasswordDTO user)
         }
 
         User user1 = _mapper.Map<UserWithPasswordDTO, User>(user);
+        user1.UserPassword = _passwordService.HashPassword(user.UserPassword); // hash before saving
         UserDTO user2 = _mapper.Map<User, UserDTO>(await _userRepository.AddUser(user1));
 
         ResultValidUser<UserDTO> resultValidUser = new ResultValidUser<UserDTO>(false, false, false, user2);
@@ -124,16 +125,19 @@ public async Task<ResultValidUser<UserDTO>> AddUser(UserWithPasswordDTO user)
         {
             User user1 = _mapper.Map<UserWithPasswordDTO, User>(user);
             user1.UserId = id;
+            user1.UserPassword = _passwordService.HashPassword(user.UserPassword); // hash before saving
             await _userRepository.UpdateUser(user1);
-            await _cache.RemoveAsync($"user:{id}"); // Cache invalidation
+            await _cache.RemoveAsync($"user:{id}");
             return new ResultValidUser<bool>(false, false, false, true);
         }
     }
 
     public async Task<UserDTO> Login(string email, string password)
     {
-        UserDTO userDTO = _mapper.Map<User, UserDTO>(await _userRepository.Login(email, password));
-        return userDTO;
+        User user = await _userRepository.Login(email);
+        if (user == null || !_passwordService.VerifyPassword(password, user.UserPassword))
+            return null;
+        return _mapper.Map<User, UserDTO>(user);
     }
 
     public string GenerateToken(UserDTO user)

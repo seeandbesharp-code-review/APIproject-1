@@ -14,34 +14,42 @@ public class OrdersService : IOrdersService
     private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
     private readonly ILogger<OrdersService> _logger;
+    private readonly IKafkaProducerService _kafkaProducer;
 
-    public OrdersService(IOrderRepository orderRepository, IMapper mapper,IProductRepository productRepository, ILogger<OrdersService> logger)
+    public OrdersService(
+        IOrderRepository orderRepository,
+        IMapper mapper,
+        IProductRepository productRepository,
+        ILogger<OrdersService> logger,
+        IKafkaProducerService kafkaProducer)
     {
         _orderRepository = orderRepository;
         _mapper = mapper;
-        _productRepository= productRepository;
+        _productRepository = productRepository;
         _logger = logger;
+        _kafkaProducer = kafkaProducer;
     }
 
     public async Task<OrderDTO> GetOrderById(int id)
     {
-        return _mapper.Map<Order, OrderDTO>( await _orderRepository.GetOrderById(id));
+        return _mapper.Map<Order, OrderDTO>(await _orderRepository.GetOrderById(id));
     }
 
     public async Task<OrderDTO> AddOrder(OrderDTO order)
     {
         double userSum = order.OrderSum;
         double realSum = 0;
-        ICollection<OrderItemDTO> orderItems=order.OrderItems;
+        ICollection<OrderItemDTO> orderItems = order.OrderItems;
         foreach (OrderItemDTO item in orderItems)
         {
-            Product product= await _productRepository.GetProductById(item.ProductId);
-            if (product != null) {
-               double priceForUnit= product.Price;
-                realSum += priceForUnit*item.Quantity;
+            Product product = await _productRepository.GetProductById(item.ProductId);
+            if (product != null)
+            {
+                double priceForUnit = product.Price;
+                realSum += priceForUnit * item.Quantity;
             }
         }
-        if(realSum != userSum)
+        if (realSum != userSum)
         {
             _logger.LogWarning("Order sum mismatch for user {UserId}. Client sent: {ClientSum}, Server calculated: {ServerSum} 😖", order.userId, order.OrderSum, realSum);
             order = order with { OrderSum = realSum };
@@ -49,7 +57,11 @@ public class OrdersService : IOrdersService
         }
 
         Order o = _mapper.Map<OrderDTO, Order>(order);
-        return _mapper.Map < Order, OrderDTO > (await _orderRepository.AddOrder(o));
+        OrderDTO createdOrder = _mapper.Map<Order, OrderDTO>(await _orderRepository.AddOrder(o));
 
+        // Publish the order-created event to Kafka after successful DB save
+        await _kafkaProducer.PublishOrderCreatedAsync(createdOrder);
+
+        return createdOrder;
     }
 }
